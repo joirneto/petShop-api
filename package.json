@@ -1,0 +1,31 @@
+{
+  "name": "petshop-api",
+  "version": "1.0.0",
+  "description": "Api para gerenciamento de Pet Shop",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joirneto/petShop-api.git"
+  },
+  "keywords": [
+    "api",
+    "petshop",
+    "pet"
+  ],
+  "author": "Joir Neto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joirneto/petShop-api/issues"
+  },
+  "homepage": "https://github.com/joirneto/petShop-api#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.3.0",
+    "sequelize": "^6.6.5"
+  }
+}
