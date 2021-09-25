@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const TabelaFornecedor = require('./TabelaFornecedor');
-const Fornecedor = require('./Fornecedor')
+const Fornecedor = require('./Fornecedor');
+const instancia = require('../../data-base');
+const NaoEncontrado = require('../../erros/NaoEncontrado');
 
 router.get('/', async (req, res) => {
   const resultados = await TabelaFornecedor.listar()
@@ -10,7 +12,7 @@ router.get('/', async (req, res) => {
   )
 })
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try{
     const data = req.body;
     const fornecedor = new Fornecedor(data);
@@ -20,16 +22,11 @@ router.post('/', async (req, res) => {
       JSON.stringify(fornecedor)
     )
   }catch(erro){
-    res.status(400)
-    res.send(
-      JSON.stringify({
-        mensagem: erro.message
-      })
-    )
+    next(erro)
   }
 })
 
-router.get('/:idFornecedor', async (req, res) => {
+router.get('/:idFornecedor', async (req, res, next) => {
   try {
     const id = req.params.idFornecedor;
     const fornecedor = new Fornecedor({ id: id })
@@ -39,16 +36,11 @@ router.get('/:idFornecedor', async (req, res) => {
       JSON.stringify(fornecedor)
     )
   } catch (erro) {
-    res.status(404)
-    res.send(
-      JSON.stringify({
-        mensagem: erro.message
-      })
-    )
+    next(erro)
   }
 })
 
-router.put('/:idFornecedor', async (req, res) => {
+router.put('/:idFornecedor', async (req, res, next) => {
   try {
     const id = req.params.idFornecedor;
     const dadosRecebidos = req.body;
@@ -59,16 +51,11 @@ router.put('/:idFornecedor', async (req, res) => {
     res.end()
   }
   catch (erro) {
-    res.status(400)
-    res.send(
-      JSON.stringify({
-        mensagem: erro.message
-      })
-    )
+    next(erro)
   }
 })
 
-router.delete('/:idFornecedor', async (req, res) =>{
+router.delete('/:idFornecedor', async (req, res, next) =>{
   try{
     const id = req.params.idFornecedor;
     const fornecedor = new Fornecedor({id:id});
@@ -78,12 +65,7 @@ router.delete('/:idFornecedor', async (req, res) =>{
     res.end()
   }
   catch(erro){
-    res.status(404)
-    res.send(
-      JSON.stringify({
-        mensagem: erro.message
-      })
-    )
+    next(erro)
   }
 })
 
