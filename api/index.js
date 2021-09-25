@@ -5,6 +5,7 @@ const router = require('./routes/fornecedores');
 const NaoEncontrado = require('./erros/NaoEncontrado')
 const CampoInvalido = require('./erros/CampoInvalido');
 const DadosNaoFornecidos = require('./erros/DadosNaoFornecidos')
+const ValorNaoSuportado = require('./erros/ValorNaoSuportado')
 
 const app = express();
 
@@ -22,6 +23,10 @@ app.use((erro, req, res, next)=>{
   if(erro instanceof CampoInvalido || erro instanceof DadosNaoFornecidos ){
     status = 400
   }
+
+  if(erro instanceof ValorNaoSuportado){
+    status = 406
+  } 
   
   res.status(status);
   res.send(
