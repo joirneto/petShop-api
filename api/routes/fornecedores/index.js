@@ -2,7 +2,6 @@ const router = require('express').Router();
 const TabelaFornecedor = require('./TabelaFornecedor');
 const Fornecedor = require('./Fornecedor');
 const instancia = require('../../data-base');
-const NaoEncontrado = require('../../erros/NaoEncontrado');
 
 router.get('/', async (req, res) => {
   const resultados = await TabelaFornecedor.listar()
