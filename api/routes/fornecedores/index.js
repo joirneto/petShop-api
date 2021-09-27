@@ -1,13 +1,17 @@
 const router = require('express').Router();
 const TabelaFornecedor = require('./TabelaFornecedor');
 const Fornecedor = require('./Fornecedor');
-const instancia = require('../../data-base');
+const SerializadorFornecedor = require('../../Serializador').SerializadorFornecedor
 
 router.get('/', async (req, res) => {
   const resultados = await TabelaFornecedor.listar()
   res.status(200)
+  const serializador = new SerializadorFornecedor(
+    res.getHeader('Content-Type')
+  )
+
   res.send(
-    JSON.stringify(resultados)
+    serializador.serializar(resultados)
   )
 })
 
@@ -17,9 +21,14 @@ router.post('/', async (req, res, next) => {
     const fornecedor = new Fornecedor(data);
     await fornecedor.criar();
     res.status(201)
-    res.send(
-      JSON.stringify(fornecedor)
+    const serializador = new SerializadorFornecedor(
+      res.getHeader('Content-Type')
     )
+  
+    res.send(
+      serializador.serializar(fornecedor)
+    )
+    
   }catch(erro){
     next(erro)
   }
@@ -31,8 +40,12 @@ router.get('/:idFornecedor', async (req, res, next) => {
     const fornecedor = new Fornecedor({ id: id })
     await fornecedor.carregar()
     res.status(200)
+    const serializador = new SerializadorFornecedor(
+      res.getHeader('Content-Type')
+    )
+  
     res.send(
-      JSON.stringify(fornecedor)
+      serializador.serializar(fornecedor)
     )
   } catch (erro) {
     next(erro)
